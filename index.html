@@ -1162,6 +1162,30 @@
     .nav-links { display: none; }
   }
 </style>
+  <script defer data-domain="mswezey.github.io" src="https://plausible.io/js/script.file-downloads.outbound-links.js"></script>
+  <script>
+    window.shiftTrack = function(name, props){
+      if (window.plausible) window.plausible(name, { props: props || {} });
+    };
+    document.addEventListener('DOMContentLoaded', function(){
+      const params = new URLSearchParams(window.location.search);
+      const src = params.get('src') || 'direct';
+      window.shiftTrack('Shift Preview Viewed', { page: 'home', src: src });
+      document.querySelectorAll('a[href*="shift-website"],a[href*="/shift-website-preview/"]').forEach(function(el){
+        try {
+          const u = new URL(el.getAttribute('href'), window.location.href);
+          if (!u.searchParams.get('src')) u.searchParams.set('src', src);
+          el.setAttribute('href', u.pathname + u.search + u.hash);
+        } catch (e) {}
+      });
+      document.querySelectorAll('a[href*="shift-website-demo"],a[href*="shift-website-roi"],a[href*="/shift-website-preview/"]').forEach(function(el){
+
+        el.addEventListener('click', function(){
+          window.shiftTrack('Shift Preview CTA Click', { page: 'home', target: el.getAttribute('href') || '' , src: src });
+        });
+      });
+    });
+  </script>
 </head>
 <body>
 

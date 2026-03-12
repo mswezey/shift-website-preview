@@ -490,6 +490,26 @@
     .time-options { grid-template-columns: repeat(2, 1fr); }
   }
 </style>
+  <script defer data-domain="mswezey.github.io" src="https://plausible.io/js/script.file-downloads.outbound-links.js"></script>
+  <script>
+    window.shiftTrack = function(name, props){
+      if (window.plausible) window.plausible(name, { props: props || {} });
+    };
+    document.addEventListener('DOMContentLoaded', function(){
+      const params = new URLSearchParams(window.location.search);
+      const src = params.get('src') || 'direct';
+      window.shiftTrack('Shift Preview Viewed', { page: 'demo', src: src });
+      document.querySelectorAll('a[href*="shift-website"],a[href*="/shift-website-preview/"]').forEach(function(el){
+        try {
+          const u = new URL(el.getAttribute('href'), window.location.href);
+          if (!u.searchParams.get('src')) u.searchParams.set('src', src);
+          el.setAttribute('href', u.pathname + u.search + u.hash);
+        } catch (e) {}
+      });
+      const form = document.getElementById('demo-form');
+      if (form) form.addEventListener('submit', function(){ window.shiftTrack('Shift Preview Demo Submit', { src: src }); });
+    });
+  </script>
 </head>
 <body>
 
