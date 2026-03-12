@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Book a Demo — Shift Workforce Wellness</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,300;0,400;0,600;0,700;0,800;0,900;1,700&family=Barlow:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --steel: #1B2B3B;
+    --steel-mid: #2E4057;
+    --steel-light: #3D5168;
+    --orange: #E8692A;
+    --orange-dark: #C45A1E;
+    --cream: #F4F0E8;
+    --off-white: #F7F5F0;
+    --mid: #8FA3B1;
+    --green: #27AE60;
+    --gold: #F5A623;
+    --text-dark: #1B2B3B;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Barlow', sans-serif;
+    background: var(--steel);
+    color: white;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Background texture */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 80px,
+      rgba(232, 105, 42, 0.02) 80px,
+      rgba(232, 105, 42, 0.02) 82px
+    );
+    pointer-events: none;
+  }
+
+  /* ── NAV ── */
+  nav {
+    background: rgba(15, 28, 39, 0.95);
+    border-bottom: 2px solid var(--orange);
+    padding: 0 2rem;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nav-logo {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 1.8rem;
+    color: white;
+    letter-spacing: 0.12em;
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--orange); }
+
+  .nav-back {
+    font-size: 0.85rem;
+    color: var(--mid);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: color 0.2s;
+  }
+  .nav-back:hover { color: white; }
+
+  /* ── MAIN LAYOUT ── */
+  .page {
+    display: grid;
+    grid-template-columns: 1fr 520px;
+    min-height: calc(100vh - 64px);
+  }
+
+  /* ── LEFT PANEL ── */
+  .left {
+    padding: 5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .left::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: rgba(255,255,255,0.06);
+  }
+
+  .eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--orange);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .eyebrow::before {
+    content: '';
+    display: block;
+    width: 2rem;
+    height: 2px;
+    background: var(--orange);
+  }
+
+  .left-headline {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: clamp(2.5rem, 4vw, 4rem);
+    line-height: 0.92;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    color: white;
+  }
+
+  .left-headline .orange { color: var(--orange); }
+
+  .left-body {
+    font-size: 1rem;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.7;
+    max-width: 440px;
+    font-weight: 300;
+    margin-bottom: 3rem;
+  }
+
+  /* What you'll get */
+  .get-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--mid);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 1.25rem;
+  }
+
+  .get-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 460px;
+  }
+
+  .get-item {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+
+  .get-check {
+    width: 24px;
+    height: 24px;
+    background: rgba(232, 105, 42, 0.15);
+    border: 1px solid rgba(232, 105, 42, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 0.7rem;
+    color: var(--orange);
+    margin-top: 0.1rem;
+  }
+
+  .get-item-title {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: white;
+    margin-bottom: 0.2rem;
+  }
+
+  .get-item-desc {
+    font-size: 0.82rem;
+    color: rgba(255,255,255,0.4);
+    line-height: 1.4;
+    font-weight: 300;
+  }
+
+  /* Social proof strip */
+  .proof-strip {
+    margin-top: 3.5rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid rgba(255,255,255,0.07);
+    display: flex;
+    gap: 2.5rem;
+  }
+
+  .proof-item-sm {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .proof-num-sm {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 1.8rem;
+    color: var(--orange);
+    line-height: 1;
+  }
+
+  .proof-label-sm {
+    font-size: 0.72rem;
+    color: var(--mid);
+    margin-top: 0.2rem;
+    line-height: 1.3;
+    font-weight: 300;
+  }
+
+  /* ── RIGHT PANEL (FORM) ── */
+  .right {
+    background: var(--off-white);
+    padding: 4rem 3.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .form-header {
+    margin-bottom: 2.5rem;
+  }
+
+  .form-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 1.8rem;
+    text-transform: uppercase;
+    color: var(--steel);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+
+  .form-sub {
+    font-size: 0.88rem;
+    color: var(--mid);
+    font-weight: 300;
+  }
+
+  .form-divider {
+    height: 3px;
+    background: var(--orange);
+    margin-bottom: 2rem;
+    width: 3rem;
+  }
+
+  /* Form fields */
+  .field-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    margin-bottom: 1rem;
+  }
+
+  .field.half { margin-bottom: 0; }
+
+  label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--steel);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  input, select, textarea {
+    background: white;
+    border: 1px solid #DDD8D0;
+    color: var(--steel);
+    font-family: 'Barlow', sans-serif;
+    font-size: 0.95rem;
+    padding: 0.75rem 1rem;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    width: 100%;
+  }
+
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--orange);
+    box-shadow: 0 0 0 3px rgba(232, 105, 42, 0.1);
+  }
+
+  select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238FA3B1' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    padding-right: 2.5rem;
+    cursor: pointer;
+  }
+
+  textarea { resize: vertical; min-height: 90px; }
+
+  /* Time preference */
+  .time-options {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+  }
+
+  .time-opt {
+    display: none;
+  }
+
+  .time-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.6rem 0.4rem;
+    border: 1px solid #DDD8D0;
+    cursor: pointer;
+    font-size: 0.8rem;
+    color: var(--mid);
+    background: white;
+    transition: all 0.15s;
+    text-align: center;
+    font-family: 'Barlow', sans-serif;
+    font-weight: 500;
+    line-height: 1.2;
+  }
+
+  .time-opt:checked + .time-label {
+    border-color: var(--orange);
+    background: rgba(232, 105, 42, 0.08);
+    color: var(--orange);
+  }
+
+  .time-label:hover {
+    border-color: var(--mid);
+    color: var(--steel);
+  }
+
+  /* Submit button */
+  .submit-btn {
+    width: 100%;
+    background: var(--orange);
+    color: white;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 1.1rem 2rem;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 1.5rem;
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  .submit-btn:hover {
+    background: var(--orange-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(232, 105, 42, 0.3);
+  }
+
+  .submit-btn:active { transform: translateY(0); }
+
+  .form-fine {
+    margin-top: 1rem;
+    font-size: 0.75rem;
+    color: var(--mid);
+    text-align: center;
+    line-height: 1.5;
+    font-weight: 300;
+  }
+
+  /* SUCCESS STATE */
+  .success-state {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 3rem 2rem;
+    min-height: 400px;
+  }
+
+  .success-icon {
+    width: 72px;
+    height: 72px;
+    background: var(--orange);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    margin: 0 auto 1.5rem;
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+  }
+
+  .success-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 2rem;
+    text-transform: uppercase;
+    color: var(--steel);
+    margin-bottom: 0.75rem;
+  }
+
+  .success-body {
+    font-size: 0.95rem;
+    color: var(--mid);
+    line-height: 1.6;
+    max-width: 320px;
+    font-weight: 300;
+  }
+
+  .success-next {
+    margin-top: 2rem;
+    background: var(--steel);
+    padding: 1.5rem;
+    width: 100%;
+    max-width: 360px;
+  }
+
+  .success-next-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--orange);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+  }
+
+  .success-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .success-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    font-size: 0.82rem;
+    color: rgba(255,255,255,0.6);
+    text-align: left;
+  }
+
+  .step-num {
+    width: 18px;
+    height: 18px;
+    background: var(--orange);
+    color: white;
+    font-size: 0.6rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+  }
+
+  @media (max-width: 900px) {
+    .page { grid-template-columns: 1fr; }
+    .left { padding: 3rem 2rem; display: none; }
+    .right { padding: 2rem; }
+    .field-group { grid-template-columns: 1fr; }
+    .time-options { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="shift-website-index.html" class="nav-logo">SHIFT<span>.</span></a>
+  <a href="shift-website-index.html" class="nav-back">← Back to Site</a>
+</nav>
+
+<div class="page">
+
+  <!-- LEFT PANEL -->
+  <div class="left">
+    <div class="eyebrow">30-Minute Demo</div>
+    <h1 class="left-headline">
+      See What Shift<br>
+      Looks Like For<br>
+      <span class="orange">Your Crew.</span>
+    </h1>
+    <p class="left-body">
+      No slides. No sales pitch. A real conversation about your team, your retention challenges, and whether Shift is the right fit — with your ROI calculated on the call.
+    </p>
+
+    <div class="get-title">// What happens on the call</div>
+    <div class="get-list">
+      <div class="get-item">
+        <div class="get-check">✓</div>
+        <div>
+          <div class="get-item-title">We listen first</div>
+          <div class="get-item-desc">Tell us about your workforce, your turnover headaches, and what you've tried. We tailor everything from there.</div>
+        </div>
+      </div>
+      <div class="get-item">
+        <div class="get-check">✓</div>
+        <div>
+          <div class="get-item-title">Live ROI estimate</div>
+          <div class="get-item-desc">We'll calculate your estimated annual turnover cost and show you the breakeven math for Shift on your crew size.</div>
+        </div>
+      </div>
+      <div class="get-item">
+        <div class="get-check">✓</div>
+        <div>
+          <div class="get-item-title">Program walkthrough</div>
+          <div class="get-item-desc">See the 90-day activation structure, the app, and how the wellness wallet works — in 10 minutes flat.</div>
+        </div>
+      </div>
+      <div class="get-item">
+        <div class="get-check">✓</div>
+        <div>
+          <div class="get-item-title">Pilot proposal if it fits</div>
+          <div class="get-item-desc">If Shift looks like a good match, we'll scope a pilot proposal for your team within 48 hours of the call.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="proof-strip">
+      <div class="proof-item-sm">
+        <span class="proof-num-sm">30</span>
+        <span class="proof-label-sm">Minute call,<br>no obligation</span>
+      </div>
+      <div class="proof-item-sm">
+        <span class="proof-num-sm">48hr</span>
+        <span class="proof-label-sm">Pilot proposal<br>turnaround</span>
+      </div>
+      <div class="proof-item-sm">
+        <span class="proof-num-sm">100%</span>
+        <span class="proof-label-sm">Pilot participation<br>in first deployment</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL (FORM) -->
+  <div class="right">
+    <div id="form-container">
+      <div class="form-header">
+        <div class="form-title">Book Your Demo</div>
+        <div class="form-sub">We'll confirm within one business day.</div>
+        <div class="form-divider"></div>
+      </div>
+
+      <form id="demo-form" onsubmit="handleSubmit(event)">
+        <div class="field-group">
+          <div class="field half">
+            <label for="fname">First Name</label>
+            <input type="text" id="fname" placeholder="Marcus" required>
+          </div>
+          <div class="field half">
+            <label for="lname">Last Name</label>
+            <input type="text" id="lname" placeholder="Williams" required>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="email">Work Email</label>
+          <input type="email" id="email" placeholder="marcus@contractingco.com" required>
+        </div>
+
+        <div class="field">
+          <label for="phone">Phone Number</label>
+          <input type="tel" id="phone" placeholder="(555) 000-0000">
+        </div>
+
+        <div class="field">
+          <label for="company">Company Name</label>
+          <input type="text" id="company" placeholder="Williams Contracting LLC" required>
+        </div>
+
+        <div class="field-group">
+          <div class="field half">
+            <label for="industry">Industry</label>
+            <select id="industry" required>
+              <option value="" disabled selected>Select one</option>
+              <option>Construction / General Contractor</option>
+              <option>Electrical</option>
+              <option>Plumbing / HVAC</option>
+              <option>Mechanical / Structural</option>
+              <option>Facilities Management</option>
+              <option>Manufacturing</option>
+              <option>Logistics / Warehousing</option>
+              <option>Other Trades</option>
+            </select>
+          </div>
+          <div class="field half">
+            <label for="size">Team Size</label>
+            <select id="size" required>
+              <option value="" disabled selected>Select one</option>
+              <option>Under 25 employees</option>
+              <option>25–100 employees</option>
+              <option>100–250 employees</option>
+              <option>250–500 employees</option>
+              <option>500+ employees</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Preferred Demo Time</label>
+          <div class="time-options">
+            <input type="radio" name="time" id="t1" value="morning" class="time-opt">
+            <label for="t1" class="time-label">Morning<br>8–11 AM</label>
+
+            <input type="radio" name="time" id="t2" value="midday" class="time-opt">
+            <label for="t2" class="time-label">Midday<br>11 AM–2 PM</label>
+
+            <input type="radio" name="time" id="t3" value="afternoon" class="time-opt">
+            <label for="t3" class="time-label">Afternoon<br>2–5 PM</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="challenge">Biggest Challenge Right Now (Optional)</label>
+          <textarea id="challenge" placeholder="e.g. High turnover on our electrical crews, workers burning out mid-season..."></textarea>
+        </div>
+
+        <button type="submit" class="submit-btn">
+          Schedule My Demo →
+        </button>
+
+        <p class="form-fine">
+          No spam, ever. We'll send one confirmation email and call you at the time you select. That's it.
+        </p>
+      </form>
+    </div>
+
+    <div class="success-state" id="success-state">
+      <div class="success-icon">✓</div>
+      <div class="success-title">You're Booked.</div>
+      <p class="success-body">
+        We'll confirm your demo time within one business day. Check your email for next steps.
+      </p>
+      <div class="success-next">
+        <div class="success-next-title">// What happens next</div>
+        <div class="success-steps">
+          <div class="success-step">
+            <div class="step-num">1</div>
+            <span>Confirmation email within 1 business day with your calendar invite</span>
+          </div>
+          <div class="success-step">
+            <div class="step-num">2</div>
+            <span>Brief 3-question intake form so we can tailor the call to your team</span>
+          </div>
+          <div class="success-step">
+            <div class="step-num">3</div>
+            <span>30-minute video call with your ROI calculated live</span>
+          </div>
+          <div class="success-step">
+            <div class="step-num">4</div>
+            <span>Pilot proposal within 48 hours if it's a fit</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+function handleSubmit(e) {
+  e.preventDefault();
+  // In production: send form data to backend / CRM here
+  document.getElementById('form-container').style.display = 'none';
+  const success = document.getElementById('success-state');
+  success.style.display = 'flex';
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ROI Calculator — Shift Workforce Wellness</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,300;0,400;0,600;0,700;0,800;0,900&family=Barlow:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --steel: #1B2B3B;
+    --steel-mid: #2E4057;
+    --steel-light: #3D5168;
+    --orange: #E8692A;
+    --orange-dark: #C45A1E;
+    --cream: #F4F0E8;
+    --off-white: #F7F5F0;
+    --mid: #8FA3B1;
+    --green: #27AE60;
+    --gold: #F5A623;
+    --red: #E74C3C;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Barlow', sans-serif;
+    background: var(--off-white);
+    color: var(--steel);
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  /* NAV */
+  nav {
+    background: rgba(27, 43, 59, 0.97);
+    border-bottom: 2px solid var(--orange);
+    padding: 0 2rem;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nav-logo {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 1.8rem;
+    color: white;
+    letter-spacing: 0.12em;
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--orange); }
+
+  .nav-back {
+    font-size: 0.85rem;
+    color: var(--mid);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: color 0.2s;
+  }
+  .nav-back:hover { color: white; }
+
+  /* HERO STRIP */
+  .hero-strip {
+    background: var(--steel);
+    padding: 3.5rem 5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-strip::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: repeating-linear-gradient(
+      -45deg, transparent, transparent 40px,
+      rgba(232,105,42,0.03) 40px, rgba(232,105,42,0.03) 41px
+    );
+  }
+
+  .hero-eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--orange);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    position: relative;
+  }
+
+  .hero-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: clamp(2.2rem, 5vw, 3.8rem);
+    color: white;
+    text-transform: uppercase;
+    line-height: 0.95;
+    margin-bottom: 1rem;
+    position: relative;
+  }
+  .hero-title .orange { color: var(--orange); }
+
+  .hero-sub {
+    font-size: 1rem;
+    color: rgba(255,255,255,0.5);
+    font-weight: 300;
+    max-width: 580px;
+    margin: 0 auto;
+    line-height: 1.6;
+    position: relative;
+  }
+
+  /* MAIN CALC AREA */
+  .calc-wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 3rem 2rem 5rem;
+  }
+
+  .calc-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    align-items: start;
+  }
+
+  /* ── INPUT PANEL ── */
+  .calc-inputs {
+    background: white;
+    border-top: 4px solid var(--orange);
+    padding: 2.5rem;
+    position: relative;
+  }
+
+  .panel-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--orange);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 1.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .panel-label::before { content: '//'; color: var(--mid); }
+
+  .slider-field {
+    margin-bottom: 2.25rem;
+  }
+
+  .slider-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 0.75rem;
+  }
+
+  .slider-name {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--steel);
+  }
+
+  .slider-val {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 1.5rem;
+    color: var(--orange);
+    line-height: 1;
+  }
+
+  .slider-hint {
+    font-size: 0.75rem;
+    color: var(--mid);
+    margin-top: 0.25rem;
+    font-weight: 300;
+  }
+
+  input[type="range"] {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 4px;
+    background: #E5E1DA;
+    outline: none;
+    border-radius: 2px;
+    margin: 0.75rem 0 0;
+  }
+
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    background: var(--orange);
+    cursor: pointer;
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    transition: transform 0.15s;
+  }
+
+  input[type="range"]::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+  }
+
+  .slider-range {
+    display: flex;
+    justify-content: space-between;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    color: #C5C0B8;
+    margin-top: 0.3rem;
+  }
+
+  /* ── RESULTS PANEL ── */
+  .calc-results {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .results-main {
+    background: var(--steel);
+    padding: 2.5rem;
+    border-top: 4px solid var(--orange);
+  }
+
+  .results-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--orange);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .results-label::before { content: '//'; color: var(--steel-light); }
+
+  .big-result {
+    margin-bottom: 1.75rem;
+  }
+
+  .big-result-label {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.4);
+    font-weight: 300;
+    margin-bottom: 0.3rem;
+  }
+
+  .big-result-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 3.5rem;
+    line-height: 1;
+    color: var(--red);
+    transition: all 0.4s;
+  }
+
+  .big-result-num.green { color: var(--green); }
+
+  .result-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+  }
+
+  .result-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .result-row-label {
+    font-size: 0.82rem;
+    color: rgba(255,255,255,0.45);
+    font-weight: 300;
+  }
+
+  .result-row-val {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: white;
+    transition: all 0.3s;
+  }
+
+  .result-row-val.red { color: var(--red); }
+  .result-row-val.green { color: var(--green); }
+  .result-row-val.gold { color: var(--gold); }
+
+  /* ROI box */
+  .roi-box {
+    background: var(--orange);
+    padding: 1.75rem 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .roi-left-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    color: rgba(255,255,255,0.7);
+    text-transform: uppercase;
+    margin-bottom: 0.3rem;
+  }
+
+  .roi-big {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 3rem;
+    color: white;
+    line-height: 1;
+    transition: all 0.3s;
+  }
+
+  .roi-sub {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.65);
+    margin-top: 0.25rem;
+  }
+
+  .roi-badge {
+    background: rgba(255,255,255,0.15);
+    padding: 0.6rem 1rem;
+    text-align: center;
+  }
+
+  .roi-badge-val {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 1.8rem;
+    color: white;
+  }
+
+  .roi-badge-label {
+    font-size: 0.7rem;
+    color: rgba(255,255,255,0.6);
+    font-family: 'IBM Plex Mono', monospace;
+    letter-spacing: 0.08em;
+  }
+
+  /* LEAD CAPTURE CARD */
+  .lead-card {
+    background: var(--cream);
+    border-top: 4px solid var(--steel);
+    padding: 2.5rem;
+  }
+
+  .lead-card-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 1.4rem;
+    text-transform: uppercase;
+    color: var(--steel);
+    margin-bottom: 0.5rem;
+    line-height: 1.1;
+  }
+
+  .lead-card-sub {
+    font-size: 0.85rem;
+    color: var(--mid);
+    font-weight: 300;
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
+  }
+
+  .lead-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .lead-input {
+    background: white;
+    border: 1px solid #DDD8D0;
+    color: var(--steel);
+    font-family: 'Barlow', sans-serif;
+    font-size: 0.9rem;
+    padding: 0.7rem 1rem;
+    outline: none;
+    transition: border-color 0.2s;
+    width: 100%;
+  }
+
+  .lead-input:focus { border-color: var(--orange); }
+
+  .lead-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+
+  .lead-submit {
+    background: var(--steel);
+    color: white;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.85rem 1.5rem;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    transition: all 0.2s;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+  }
+
+  .lead-submit:hover {
+    background: var(--orange);
+    transform: translateY(-2px);
+  }
+
+  .lead-fine {
+    font-size: 0.72rem;
+    color: #B5B0A8;
+    text-align: center;
+    line-height: 1.4;
+    font-weight: 300;
+  }
+
+  /* Full-width custom report section */
+  .report-strip {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 2rem 5rem;
+  }
+
+  .report-card {
+    background: var(--steel);
+    padding: 3.5rem 4rem;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 3rem;
+    align-items: center;
+    border-top: 4px solid var(--orange);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .report-card::before {
+    content: 'ROI';
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 14rem;
+    color: rgba(255,255,255,0.02);
+    position: absolute;
+    right: -1rem;
+    bottom: -2rem;
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .report-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 2rem;
+    text-transform: uppercase;
+    color: white;
+    line-height: 1;
+    margin-bottom: 0.75rem;
+  }
+
+  .report-body {
+    font-size: 0.95rem;
+    color: rgba(255,255,255,0.5);
+    font-weight: 300;
+    line-height: 1.6;
+    max-width: 500px;
+  }
+
+  .report-btn {
+    background: var(--orange);
+    color: white;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 1rem 2.2rem;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    white-space: nowrap;
+    transition: all 0.2s;
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+  }
+
+  .report-btn:hover {
+    background: rgba(232, 105, 42, 0.85);
+    transform: translateY(-2px);
+  }
+
+  /* Assumptions note */
+  .assumptions {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 2rem 3rem;
+  }
+
+  .assumptions-box {
+    background: white;
+    border-left: 3px solid var(--mid);
+    padding: 1.25rem 1.5rem;
+  }
+
+  .assumptions-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--mid);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  .assumptions-body {
+    font-size: 0.8rem;
+    color: var(--mid);
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  /* Lead capture success */
+  .lead-success {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 2rem;
+  }
+
+  .lead-success-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .lead-success-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 1.4rem;
+    text-transform: uppercase;
+    color: var(--steel);
+    margin-bottom: 0.5rem;
+  }
+
+  .lead-success-body {
+    font-size: 0.85rem;
+    color: var(--mid);
+    font-weight: 300;
+    line-height: 1.5;
+    margin-bottom: 1.25rem;
+  }
+
+  .lead-book-btn {
+    background: var(--orange);
+    color: white;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.85rem 1.5rem;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: all 0.2s;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+  }
+
+  .lead-book-btn:hover { background: var(--orange-dark); }
+
+  @media (max-width: 900px) {
+    .calc-layout { grid-template-columns: 1fr; }
+    .hero-strip { padding: 2.5rem 1.5rem; }
+    .calc-wrap { padding: 2rem 1rem 4rem; }
+    .report-card { grid-template-columns: 1fr; gap: 1.5rem; padding: 2rem; }
+    .report-strip, .assumptions { padding: 0 1rem 3rem; }
+    .lead-row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="shift-website-index.html" class="nav-logo">SHIFT<span>.</span></a>
+  <a href="shift-website-index.html" class="nav-back">← Back to Site</a>
+</nav>
+
+<div class="hero-strip">
+  <div class="hero-eyebrow">ROI Calculator</div>
+  <h1 class="hero-title">What is Your<br>Turnover <span class="orange">Actually Costing?</span></h1>
+  <p class="hero-sub">Most contractors know turnover is expensive. Almost none of them have run the real number. Do it in 60 seconds.</p>
+</div>
+
+<div class="calc-wrap">
+  <div class="calc-layout">
+
+    <!-- INPUTS -->
+    <div class="calc-inputs">
+      <div class="panel-label">Your Numbers</div>
+
+      <div class="slider-field">
+        <div class="slider-header">
+          <span class="slider-name">Total Employees</span>
+          <span class="slider-val" id="val-employees">100</span>
+        </div>
+        <p class="slider-hint">W-2 employees and regular subcontractors</p>
+        <input type="range" id="employees" min="10" max="500" value="100" step="5" oninput="update()">
+        <div class="slider-range"><span>10</span><span>500</span></div>
+      </div>
+
+      <div class="slider-field">
+        <div class="slider-header">
+          <span class="slider-name">Annual Turnover Rate</span>
+          <span class="slider-val" id="val-turnover">40%</span>
+        </div>
+        <p class="slider-hint">Industry average is 40–60% for trades</p>
+        <input type="range" id="turnover" min="10" max="80" value="40" step="5" oninput="update()">
+        <div class="slider-range"><span>10%</span><span>80%</span></div>
+      </div>
+
+      <div class="slider-field">
+        <div class="slider-header">
+          <span class="slider-name">Avg Worker Annual Salary</span>
+          <span class="slider-val" id="val-salary">$65K</span>
+        </div>
+        <p class="slider-hint">Including base pay and benefits</p>
+        <input type="range" id="salary" min="35000" max="120000" value="65000" step="5000" oninput="update()">
+        <div class="slider-range"><span>$35K</span><span>$120K</span></div>
+      </div>
+
+      <div class="slider-field">
+        <div class="slider-header">
+          <span class="slider-name">Replacement Cost Multiplier</span>
+          <span class="slider-val" id="val-multiplier">30%</span>
+        </div>
+        <p class="slider-hint">SHRM estimates 33% of salary per departure for hourly workers</p>
+        <input type="range" id="multiplier" min="15" max="60" value="30" step="5" oninput="update()">
+        <div class="slider-range"><span>15%</span><span>60%</span></div>
+      </div>
+
+      <div class="slider-field">
+        <div class="slider-header">
+          <span class="slider-name">Shift Estimated Retention Lift</span>
+          <span class="slider-val" id="val-lift">25%</span>
+        </div>
+        <p class="slider-hint">Conservative estimate based on pilot data</p>
+        <input type="range" id="lift" min="10" max="50" value="25" step="5" oninput="update()">
+        <div class="slider-range"><span>10%</span><span>50%</span></div>
+      </div>
+    </div>
+
+    <!-- RESULTS -->
+    <div class="calc-results">
+
+      <div class="results-main">
+        <div class="results-label">Your Current Cost</div>
+
+        <div class="big-result">
+          <div class="big-result-label">Annual Turnover Cost (Today)</div>
+          <div class="big-result-num" id="total-cost">$780K</div>
+        </div>
+
+        <div class="result-rows">
+          <div class="result-row">
+            <span class="result-row-label">Workers leaving per year</span>
+            <span class="result-row-val" id="r-departures">40</span>
+          </div>
+          <div class="result-row">
+            <span class="result-row-label">Cost per departure</span>
+            <span class="result-row-val red" id="r-per-hire">$19,500</span>
+          </div>
+          <div class="result-row">
+            <span class="result-row-label">Total annual cost</span>
+            <span class="result-row-val red" id="r-total">$780,000</span>
+          </div>
+          <div class="result-row">
+            <span class="result-row-label">Shift annual program cost*</span>
+            <span class="result-row-val gold" id="r-shift-cost">$120,000</span>
+          </div>
+          <div class="result-row">
+            <span class="result-row-label">Estimated annual savings</span>
+            <span class="result-row-val green" id="r-savings">$75,000</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="roi-box">
+        <div>
+          <div class="roi-left-label">Estimated Return on Investment</div>
+          <div class="roi-big" id="roi-num">63%</div>
+          <div class="roi-sub">net ROI after Shift program cost</div>
+        </div>
+        <div class="roi-badge">
+          <div class="roi-badge-val" id="roi-payback">7mo</div>
+          <div class="roi-badge-label">payback<br>period</div>
+        </div>
+      </div>
+
+      <!-- LEAD CAPTURE -->
+      <div class="lead-card">
+        <div id="lead-form-wrap">
+          <div class="lead-card-title">Get Your Full<br>Custom Report</div>
+          <div class="lead-card-sub">We'll send a detailed breakdown with your numbers, benchmarks, and a Shift pilot proposal for your crew size.</div>
+          <div class="lead-form">
+            <div class="lead-row">
+              <input type="text" class="lead-input" id="l-name" placeholder="Your name" required>
+              <input type="email" class="lead-input" id="l-email" placeholder="Work email" required>
+            </div>
+            <input type="text" class="lead-input" id="l-company" placeholder="Company name">
+            <input type="tel" class="lead-input" id="l-phone" placeholder="Phone (optional)">
+            <button class="lead-submit" onclick="submitLead()">Send My Report + Schedule a Call →</button>
+            <p class="lead-fine">No spam. One email with your report, one follow-up call offer. That's it.</p>
+          </div>
+        </div>
+        <div class="lead-success" id="lead-success">
+          <div class="lead-success-icon">📊</div>
+          <div class="lead-success-title">Report Incoming</div>
+          <p class="lead-success-body">Check your email — your custom ROI report will arrive within the hour. Want to walk through it together?</p>
+          <a href="shift-website-demo.html" class="lead-book-btn">Book a 30-Min Call →</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- FULL REPORT STRIP -->
+<div class="report-strip">
+  <div class="report-card">
+    <div>
+      <div class="report-title">Bigger Teams Get<br>Bigger Numbers.</div>
+      <p class="report-body">If you have 250+ employees, your turnover cost is likely well over $1M annually. Book a 30-minute call and we'll build a custom business case you can take to your executive team or board.</p>
+    </div>
+    <a href="shift-website-demo.html" class="report-btn">Book the Call →</a>
+  </div>
+</div>
+
+<div class="assumptions">
+  <div class="assumptions-box">
+    <div class="assumptions-title">// Methodology & Assumptions</div>
+    <p class="assumptions-body">
+      Turnover cost calculated as (Annual Salary × Replacement Multiplier). Replacement costs include recruiting, onboarding, training, and productivity ramp time per SHRM and Bureau of Labor Statistics benchmarks for skilled trades. Shift program cost estimated at $1,200/employee/year based on 100-person baseline. Retention lift estimate (10–50%) is conservative and based on internal pilot data — your results may vary. This calculator is for illustrative purposes; book a call for a tailored analysis.
+    </p>
+  </div>
+</div>
+
+<script>
+  function fmt(n) {
+    if (n >= 1000000) return '$' + (n/1000000).toFixed(1) + 'M';
+    if (n >= 1000) return '$' + Math.round(n/1000) + 'K';
+    return '$' + n.toLocaleString();
+  }
+
+  function fmtPct(n) { return Math.round(n) + '%'; }
+
+  function update() {
+    const employees = +document.getElementById('employees').value;
+    const turnoverPct = +document.getElementById('turnover').value / 100;
+    const salary = +document.getElementById('salary').value;
+    const multiplier = +document.getElementById('multiplier').value / 100;
+    const lift = +document.getElementById('lift').value / 100;
+
+    // Display slider values
+    document.getElementById('val-employees').textContent = employees;
+    document.getElementById('val-turnover').textContent = Math.round(turnoverPct * 100) + '%';
+    document.getElementById('val-salary').textContent = '$' + (salary / 1000) + 'K';
+    document.getElementById('val-multiplier').textContent = Math.round(multiplier * 100) + '%';
+    document.getElementById('val-lift').textContent = Math.round(lift * 100) + '%';
+
+    // Calculations
+    const departures = Math.round(employees * turnoverPct);
+    const costPerHire = Math.round(salary * multiplier);
+    const totalCost = departures * costPerHire;
+    const shiftCost = Math.round(employees * 1200);
+    const savedDepartures = Math.round(departures * lift);
+    const savings = Math.round(savedDepartures * costPerHire) - shiftCost;
+    const roi = Math.round((savings / shiftCost) * 100);
+    const paybackMonths = savings > 0 ? Math.max(1, Math.round(shiftCost / (savings / 12))) : 0;
+
+    document.getElementById('total-cost').textContent = fmt(totalCost);
+    document.getElementById('total-cost').className = 'big-result-num'; // reset
+
+    document.getElementById('r-departures').textContent = departures;
+    document.getElementById('r-per-hire').textContent = fmt(costPerHire);
+    document.getElementById('r-total').textContent = fmt(totalCost);
+    document.getElementById('r-shift-cost').textContent = fmt(shiftCost);
+
+    if (savings > 0) {
+      document.getElementById('r-savings').textContent = fmt(savings);
+      document.getElementById('r-savings').className = 'result-row-val green';
+      document.getElementById('roi-num').textContent = roi + '%';
+      document.getElementById('roi-payback').textContent = paybackMonths + 'mo';
+    } else {
+      document.getElementById('r-savings').textContent = fmt(savings);
+      document.getElementById('r-savings').className = 'result-row-val red';
+      document.getElementById('roi-num').textContent = roi + '%';
+      document.getElementById('roi-payback').textContent = '—';
+    }
+  }
+
+  function submitLead() {
+    const name = document.getElementById('l-name').value;
+    const email = document.getElementById('l-email').value;
+    if (!name || !email) {
+      alert('Please enter your name and email.');
+      return;
+    }
+    // In production: POST to backend / CRM
+    document.getElementById('lead-form-wrap').style.display = 'none';
+    const success = document.getElementById('lead-success');
+    success.style.display = 'flex';
+  }
+
+  // Init
+  update();
+</script>
+</body>
+</html>
