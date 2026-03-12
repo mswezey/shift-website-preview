@@ -501,12 +501,15 @@
     };
     document.addEventListener('DOMContentLoaded', function(){
       const params = new URLSearchParams(window.location.search);
-      const src = params.get('src') || 'direct';
+      const src = params.get('src') || params.get('utm_source') || 'direct';
       window.shiftTrack('Shift Preview Viewed', { page: 'demo', src: src });
       document.querySelectorAll('a[href*="shift-website"],a[href*="/shift-website-preview/"]').forEach(function(el){
         try {
           const u = new URL(el.getAttribute('href'), window.location.href);
           if (!u.searchParams.get('src')) u.searchParams.set('src', src);
+          if (!u.searchParams.get('utm_source')) u.searchParams.set('utm_source', src);
+          if (!u.searchParams.get('utm_medium')) u.searchParams.set('utm_medium', 'direct-share');
+          if (!u.searchParams.get('utm_campaign')) u.searchParams.set('utm_campaign', 'shift-preview');
           el.setAttribute('href', u.pathname + u.search + u.hash);
         } catch (e) {}
       });
